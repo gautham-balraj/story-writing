@@ -1,17 +1,34 @@
-from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, END
 from typing import TypedDict, Annotated, List, Dict
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from copy import deepcopy
+from langchain_groq import ChatGroq
+
 
 title_llm = ChatOpenAI(model="gpt-4o",metadata={"name":"title_llm"})
 chapter_title_llm = ChatOpenAI(model="gpt-4o",metadata={"name":"chapter_title_llm"})
 summary_llm = ChatOpenAI(model="gpt-4o",metadata={"name":"summary_llm"})
 brainstorm_llm = ChatOpenAI(model="gpt-4o",temperature=1,metadata={"name":"brainstorm_llm"})
-plan_llm = ChatAnthropic(model="claude-3-haiku-20240307",metadata={"name":"plan_llm"})
-write_llm = ChatAnthropic(model="claude-3-sonnet-20240229",metadata={"name":"write_llm"})
+
+plan_llm =  llm = ChatGroq(
+    model="llama3-70b-8192",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+    metadata={"name":"plan_llm"}
+)
+write_llm = ChatGroq(
+    model="llama3-70b-8192",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+    metadata={"name":"write_llm"}
+)
+
 
 summary_messages = [
     ("system", "You are an assistant solely focused on summarizing books. Your goal \
